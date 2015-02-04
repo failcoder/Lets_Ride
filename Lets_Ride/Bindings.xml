@@ -1,0 +1,5 @@
+<Bindings>
+  <Binding name="LETS_RIDE" description="Lets Ride" category="ADDONS" runOnUp="false">
+    PutMeOnMyDamnMount()
+  </Binding>
+</Bindings>

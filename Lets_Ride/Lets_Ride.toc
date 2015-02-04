@@ -1,0 +1,13 @@
+## Interface: 60000
+## Author: Munglunch
+## Version: 1.0.0
+## Title: |cffFF9900Lets Ride!|r
+## Notes: Enhanced mount selection and activation
+## SavedVariablesPerCharacter: LetsRide_Data
+## X-Email: munglunch@gmail.com
+## X-Website: http://www.supervillainui.com
+## X-Donate: PayPal:munglunch@gmail.com
+## X-License: All Rights Reserved
+## X-Category: Interface Enhancements
+
+Lets_Ride.lua
