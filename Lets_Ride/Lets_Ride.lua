@@ -242,10 +242,35 @@ local _hook_SetChecked = function(self, checked)
     self:SetBackdropBorderColor(r,g,b) 
 end
 
-local function CreateMountCheckBox(name, parent)
-	local frame = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate")
-    frame:SetStyle("Frame", "Icon", true, 1)
+local RemoveTextures = function(self)
+    local region, layer, texture
+    for i = 1, self:GetNumRegions()do 
+        region = select(i, self:GetRegions())
+        if(region and (region:GetObjectType() == "Texture")) then
+            layer = region:GetDrawLayer()
+            texture = region:GetTexture()
+            region:SetTexture(0,0,0,0)
+        end 
+    end
+end
 
+local function CreateMountCheckBox(name, parent)
+	local frame = CreateFrame("CheckButton", name, parent, "UICheckButtonTemplate");
+	RemoveTextures(frame)
+	frame:SetBackdrop({
+        bgFile = [[Interface\AddOns\Lets_Ride\assets\GLOSS]], 
+        edgeFile = [[Interface\BUTTONS\WHITE8X8]], 
+        tile = false, 
+        tileSize = 0, 
+        edgeSize = 1, 
+        insets = 
+        {
+            left = 0, 
+            right = 0, 
+            top = 0, 
+            bottom = 0, 
+        }, 
+    });
     if(frame.Left) then frame.Left:SetAlpha(0) end 
     if(frame.Middle) then frame.Middle:SetAlpha(0) end 
     if(frame.Right) then frame.Right:SetAlpha(0) end 
@@ -255,7 +280,7 @@ local function CreateMountCheckBox(name, parent)
     if(frame.SetHighlightTexture) then
         if(not frame.hover) then
             local hover = frame:CreateTexture(nil, "HIGHLIGHT")
-            hover:InsetPoints(frame.Panel)
+            hover:SetAllPoints(frame)
             frame.hover = hover;
         end
         frame.hover:SetTexture(0.1, 0.8, 0.8, 0.5)
@@ -264,7 +289,7 @@ local function CreateMountCheckBox(name, parent)
     if(frame.SetPushedTexture) then
         if(not frame.pushed) then 
             local pushed = frame:CreateTexture(nil, "OVERLAY")
-            pushed:InsetPoints(frame.Panel)
+            pushed:SetAllPoints(frame)
             frame.pushed = pushed;
         end
         frame.pushed:SetTexture(0.1, 0.8, 0.1, 0.3)
@@ -273,7 +298,7 @@ local function CreateMountCheckBox(name, parent)
     if(frame.SetCheckedTexture) then
         if(not frame.checked) then
             local checked = frame:CreateTexture(nil, "OVERLAY")
-            checked:InsetPoints(frame.Panel)
+            checked:SetAllPoints(frame)
             frame.checked = checked
         end
 
@@ -340,8 +365,8 @@ function CoreObject:Initialize()
 		buttonBar["GROUND"] = CreateMountCheckBox(("%s_GROUND"):format(barName), buttonBar)
 		buttonBar["GROUND"]:SetSize(width,height)
 		buttonBar["GROUND"]:SetPoint("BOTTOMLEFT", buttonBar, "BOTTOMLEFT", 6, 4)
-		buttonBar["GROUND"]:RemoveTextures()
-	    buttonBar["GROUND"]:SetPanelColor(0.2, 0.7, 0.1, 0.15)
+		buttonBar["GROUND"]:SetBackdropColor(0.2, 0.7, 0.1, 0.25)
+		buttonBar["GROUND"]:SetBackdropBorderColor(0, 0, 0, 1)
 	    buttonBar["GROUND"]:GetCheckedTexture():SetVertexColor(0.2, 0.7, 0.1, 1)
 	    buttonBar["GROUND"].key = "GROUND"
 		buttonBar["GROUND"]:SetChecked(false)
@@ -352,8 +377,8 @@ function CoreObject:Initialize()
 	    buttonBar["FLYING"] = CreateMountCheckBox(("%s_FLYING"):format(barName), buttonBar)
 		buttonBar["FLYING"]:SetSize(width,height)
 		buttonBar["FLYING"]:SetPoint("BOTTOMLEFT", buttonBar["GROUND"], "BOTTOMRIGHT", 2, 0)
-		buttonBar["FLYING"]:RemoveTextures()
-	    buttonBar["FLYING"]:SetPanelColor(1, 1, 0.2, 0.15)
+		buttonBar["FLYING"]:SetBackdropColor(1, 1, 0.2, 0.25)
+		buttonBar["FLYING"]:SetBackdropBorderColor(0, 0, 0, 1)
 	    buttonBar["FLYING"]:GetCheckedTexture():SetVertexColor(1, 1, 0.2, 1)
 	    buttonBar["FLYING"].key = "FLYING"
 		buttonBar["FLYING"]:SetChecked(false)
@@ -364,8 +389,8 @@ function CoreObject:Initialize()
 	    buttonBar["SWIMMING"] = CreateMountCheckBox(("%s_SWIMMING"):format(barName), buttonBar)
 		buttonBar["SWIMMING"]:SetSize(width,height)
 		buttonBar["SWIMMING"]:SetPoint("BOTTOMLEFT", buttonBar["FLYING"], "BOTTOMRIGHT", 2, 0)
-		buttonBar["SWIMMING"]:RemoveTextures()
-	    buttonBar["SWIMMING"]:SetPanelColor(0.2, 0.42, 0.76, 0.15)
+		buttonBar["SWIMMING"]:SetBackdropColor(0.2, 0.42, 0.76, 0.25)
+		buttonBar["SWIMMING"]:SetBackdropBorderColor(0, 0, 0, 1)
 	    buttonBar["SWIMMING"]:GetCheckedTexture():SetVertexColor(0.2, 0.42, 0.76, 1)
 	    buttonBar["SWIMMING"].key = "SWIMMING"
 		buttonBar["SWIMMING"]:SetChecked(false)
@@ -376,8 +401,8 @@ function CoreObject:Initialize()
 		buttonBar["SPECIAL"] = CreateMountCheckBox(("%s_SPECIAL"):format(barName), buttonBar)
 		buttonBar["SPECIAL"]:SetSize(width,height)
 		buttonBar["SPECIAL"]:SetPoint("BOTTOMLEFT", buttonBar["SWIMMING"], "BOTTOMRIGHT", 2, 0)
-		buttonBar["SPECIAL"]:RemoveTextures()
-	    buttonBar["SPECIAL"]:SetPanelColor(0.7, 0.1, 0.1, 0.15)
+		buttonBar["SPECIAL"]:SetBackdropColor(0.7, 0.1, 0.1, 0.25)
+		buttonBar["SPECIAL"]:SetBackdropBorderColor(0, 0, 0, 1)
 	    buttonBar["SPECIAL"]:GetCheckedTexture():SetVertexColor(0.7, 0.1, 0.1, 1)
 	    buttonBar["SPECIAL"].key = "SPECIAL"	
 		buttonBar["SPECIAL"]:SetChecked(false)
